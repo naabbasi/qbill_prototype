@@ -1,0 +1,50 @@
+<div class="flex align-items-center justify-content-center">
+  <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+    <div class="text-center mb-5">
+      <div class="text-900 text-3xl font-medium mb-3">
+        {{this.supplier.supplierId === null ? 'Register a new Supplier' : 'Modify [' + this.supplier.supplierName + '] Supplier'}}
+      </div>
+    </div>
+
+    <form (ngSubmit)="saveSupplier()" ngNativeValidate>
+      <div>
+        <label for="supplierName" class="block text-900 font-medium mb-2">Supplier Name</label>
+        <input [(ngModel)]="supplier.supplierName" [placeholder]="'Please enter supplier name'" class="w-full mb-2"
+               id="supplierName" name="supplierName"
+               pInputText type="text">
+        <p-message *ngIf="error.supplierName !== ''" [text]="error.supplierName" class="block mb-2"
+                   severity="error"></p-message>
+
+        <label for="supplierAddress" class="block text-900 font-medium mb-2">Supplier Address</label>
+        <input [(ngModel)]="supplier.supplierAddress" [placeholder]="'Please enter supplier address'"
+               class="w-full mb-2" id="supplierAddress"
+               name="supplierAddress" pInputText type="text">
+        <p-message *ngIf="error.supplierAddress !== ''" [text]="error.supplierAddress" class="block mb-2"
+                   severity="error"></p-message>
+
+        <label for="supplierMobileNumber" class="block text-900 font-medium mb-2">Supplier Mobile Number</label>
+        <p-inputMask [(ngModel)]="supplier.supplierMobileNumber" [placeholder]="'Please enter supplier mobile number'"
+                     [styleClass]="'mb-2'" [style]="{width: '100%'}"
+                     id="supplierMobileNumber" mask="9999-9999999" name="supplierMobileNumber">
+        </p-inputMask>
+        <p-message *ngIf="error.supplierMobileNumber !== ''" [text]="error.supplierMobileNumber" class="block mb-2"
+                   severity="error"></p-message>
+
+        <label for="supplierStatus" class="block text-900 font-medium mb-2">Supplier Status</label>
+        <p-dropdown [(ngModel)]="supplier.supplierStatus" [name]="'supplierStatus'"
+                    [options]="supplierHelper.getSupplierStatues()"
+                    [style]="{width: '100%'}" class="block text-900 font-medium mb-2" id="supplierStatus">
+        </p-dropdown>
+        <p-message *ngIf="error.supplierStatus !== ''" [text]="error.supplierStatus" class="block mb-2"
+                   severity="error"></p-message>
+
+        <p-messages class="block mb-2"></p-messages>
+
+        <button [disabled]="supplierSaved" class="w-full mb-2" icon="pi pi-users" label="Register Supplier" pButton
+                pRipple></button>
+        <button pButton pRipple label="Back to All Supplier" icon="pi pi-home" class="w-full"
+                [routerLink]="'/admin/suppliers'"></button>
+      </div>
+    </form>
+  </div>
+</div>

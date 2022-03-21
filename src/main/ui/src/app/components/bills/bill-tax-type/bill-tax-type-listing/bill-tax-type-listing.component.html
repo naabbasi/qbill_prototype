@@ -1,0 +1,72 @@
+<p-toast position="top-right"></p-toast>
+<div class="card">
+  <p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+      <button pButton pRipple label="Add Bill" icon="pi pi-plus" class="p-button-primary p-button-sm mr-2" (click)="addBillTaxType()"></button>
+    </ng-template>
+    <ng-template pTemplate="right">
+      <!--<button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"></button>-->
+    </ng-template>
+  </p-toolbar>
+
+  <p-table [value]="virtualBillsTaxTypes" [lazy]="true" (onLazyLoad)="loadSuppliersLazy($event)" [responsive]="true" styleClass="p-datatable-sm p-datatable-gridlines"
+           [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,15,20]"
+           [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [loading]="loading" [rowHover]="true"
+           [sortField]="'genericKey'"
+           [selectionMode]="'single'" [(selection)]="selectedBillsTaxTypes" [dataKey]="'genericKey'" (onRowSelect)="onRowSelect($event)"
+  >
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3%"></th>
+        <th style="width: 10%; text-align: center;" pSortableColumn="id">Bill ID <p-sortIcon field="id"></p-sortIcon></th>
+        <th style="width: 15%; text-align: center;">Description<p-sortIcon field="description"></p-sortIcon></th>
+        <th style="width: 8%; text-align: center;">GL Code</th>
+        <th style="width: 10%; text-align: center;">Complex Generic Key<p-sortIcon field="complexGenericKey"></p-sortIcon></th>
+        <th style="width: 8%; text-align: center;">Creator</th>
+        <th style="width: 10%; text-align: center;">Created</th>
+        <th style="width: 8%; text-align: center;">Changer</th>
+        <th style="width: 10%; text-align: center;">Changed</th>
+        <th style="width: 10%; text-align: center;">Life Cycle State</th>
+        <th style="width: 6%; text-align: center;">Action</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-bill let-expanded="expanded">
+      <tr [pSelectableRow]="bill">
+        <td>
+          <button type="button" pButton pRipple [pRowToggler]="bill"
+                  class="p-button-text p-button-rounded p-button-plain"
+                  [icon]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'">
+          </button>
+        </td>
+        <td>{{bill['id']}}</td>
+        <td>{{bill['description']}}</td>
+        <td class="text-center">{{bill['glCode']}}</td>
+        <td>{{bill['complexGenericKey']}}</td>
+        <td>{{bill['creator']}}</td>
+        <td>{{bill['created']}}</td>
+        <td>{{bill['changer']}}</td>
+        <td>{{bill['changed']}}</td>
+        <td class="text-center">
+          <span [class]="'status-badge status-' + bill['lifeCycleState'].toLowerCase()">{{bill['lifeCycleState']}}</span>
+        </td>
+        <td>
+          <div class="text-center">
+            <p-button (click)="crudHelper.actions(BILL_ENDPOINT_URL, bill, crudHelper.EDIT);" [icon]="'pi pi-pencil'"
+                      class="mr-1"></p-button>
+            <p-button (click)="crudHelper.getConfirmation(BILL_ENDPOINT_URL, bill, crudHelper.EDIT)"
+                      [icon]="'pi pi-trash'"></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="11">
+          There are no bills yet.
+        </td>
+      </tr>
+    </ng-template>
+</p-table>
+</div>

@@ -1,0 +1,60 @@
+<div class="flex align-items-center justify-content-center">
+  <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+    <div class="text-center mb-5">
+      <div
+        class="text-900 text-3xl font-medium mb-3">{{bill.genericKey === '' ? "Create a new Bill" : "Modify [" + bill.id + "] Bill"}}</div>
+    </div>
+
+    <div>
+      <form (ngSubmit)="saveOrUpdateBill()" ngNativeValidate>
+        <div>
+          <label class="block text-900 font-medium mb-2" for="billId">Bill ID</label>
+          <input [(ngModel)]="bill.id" [placeholder]="'Please enter bill id'"
+                 class="w-full mb-2" id="billId" name="billId" pInputText type="text">
+
+          <p-message *ngIf="error.id !== ''" [text]="error.id" class="block mb-2" severity="error">
+          </p-message>
+
+          <label class="block text-900 font-medium mb-2" for="billDescription">Description</label>
+          <input [(ngModel)]="bill.description" [placeholder]="'Please enter bill description'"
+                 class="w-full mb-2" id="billDescription" name="billDescription" pInputText type="text">
+
+          <p-message *ngIf="error.description !== ''" [text]="error.description" class="block mb-2" severity="error">
+          </p-message>
+
+          <label class="block text-900 font-medium mb-2" for="billDescription">GL Code</label>
+          <input [(ngModel)]="bill.glCode" [placeholder]="'Please enter gl code'"
+                 class="w-full mb-2" id="glCode" name="glCode" pInputText type="text">
+
+          <p-message *ngIf="error.glCode !== ''" [text]="error.glCode" class="block mb-2" severity="error">
+          </p-message>
+
+          <label class="block text-900 font-medium mb-2" for="complexGenericKey">Complex Generic Key</label>
+          <input [(ngModel)]="bill.complexGenericKey" [disabled]="true" [placeholder]="'Please enter complex generic key'"
+                 class="w-full mb-2" id="complexGenericKey" name="complexGenericKey" pInputText type="text">
+
+          <p-message *ngIf="error.genericKey !== ''" [text]="error.genericKey" class="block mb-2" severity="error">
+          </p-message>
+        </div>
+
+
+        <label class="block text-900 font-medium mb-2" for="userStatus">Life Cycle State</label>
+        <p-dropdown [(ngModel)]="bill.lifeCycleState" [name]="'userStatus'" [options]="billTaxTypesHelper.getLifeCycleState()"
+                    [style]="{width: '100%'}" class="block text-900 font-medium mb-2" id="userStatus"
+                    placeholder="Please select user status"></p-dropdown>
+
+        <p-message *ngIf="error.lifeCycleState !== ''" [text]="error.lifeCycleState" class="block mb-2" severity="error">
+        </p-message>
+
+        <p-messages class="block mb-2"></p-messages>
+
+        <div class="text-right">
+          <button [type]="'submit'" class="p-button-sm mr-2" icon="pi pi-book" label="Save/Update Bill"
+                  pButton pRipple></button>
+          <button [routerLink]="'/admin/bills'" class="p-button-sm" icon="pi pi-home" label="Back to All Bills"
+                  pButton pRipple></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

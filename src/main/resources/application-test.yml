@@ -1,0 +1,25 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        generate_statistics: true
+      jdbc:
+        batch_size: 10
+        order_inserts: true
+    database: postgresql
+    hibernate:
+      ddl-auto: none
+    defer-datasource-initialization: true
+  datasource:
+    url: jdbc:postgresql://localhost:26257/qbill_test
+    username: root
+    password:
+  main:
+    lazy-initialization: false
+  flyway:
+    locations: classpath:/db/migration/postgresql/complete,classpath:/db/migration/postgresql/test_data
+
+debug: true
+
+jwt:
+  secret: qterminals_qbills_secret

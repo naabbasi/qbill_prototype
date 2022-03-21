@@ -1,0 +1,37 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        generate_statistics: true
+      jdbc:
+        batch_size: 10
+        order_inserts: true
+    database: mysql
+    hibernate:
+      ddl-auto: none
+    defer-datasource-initialization: true
+  datasource:
+    url: jdbc:mysql://172.27.84.156:3306/qbill
+    username: qbill_dev
+    password: UXRARGVW
+  main:
+    lazy-initialization: false
+  flyway:
+    locations: classpath:/db/migration/postgresql/complete,classpath:/db/migration/postgresql/devdata
+  profiles:
+    active: dev
+
+debug: true
+
+jwt:
+  secret: qterminals_qbills_secret
+
+server:
+  error:
+    whitelabel:
+      enabled=false: false
+
+##If want to see very extensive logging
+#spring.jpa.properties.hibernate.generate_statistics=false
+#logging.level.org.hibernate.type=trace
+#logging.level.org.hibernate.stat=debug

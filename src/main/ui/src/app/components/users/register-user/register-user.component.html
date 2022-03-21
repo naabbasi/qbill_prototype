@@ -1,0 +1,78 @@
+<div class="flex align-items-center justify-content-center">
+  <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+    <div class="text-center mb-5">
+      <div
+        class="text-900 text-3xl font-medium mb-3">{{user.userId === null ? "Register a new User" : "Modify [" + user.username + "] User"}}</div>
+    </div>
+
+    <form (ngSubmit)="registerUser()" ngNativeValidate>
+      <div>
+        <label class="block text-900 font-medium mb-2" for="firstName">First Name</label>
+        <input [(ngModel)]="user.firstName" [placeholder]="'Please enter first name'"
+               class="w-full mb-2" id="firstName" name="firstName" pInputText type="text">
+
+        <p-message *ngIf="error.firstName !== ''" [text]="error.firstName" class="block mb-2" severity="error">
+        </p-message>
+
+        <label class="block text-900 font-medium mb-2" for="lastName">Last Name</label>
+        <input [(ngModel)]="user.lastName" [placeholder]="'Please enter last name'"
+               class="w-full mb-2" id="lastName" name="lastName" pInputText type="text">
+
+        <p-message *ngIf="error.lastName !== ''" [text]="error.lastName" class="block mb-2" severity="error">
+        </p-message>
+
+        <label class="block text-900 font-medium mb-2" for="username">Username</label>
+        <input [(ngModel)]="user.username" [disabled]="user.userId !== null" [placeholder]="'Please enter username'"
+               class="w-full mb-2" id="username" name="username" pInputText type="text">
+
+        <p-message *ngIf="error.username !== ''" [text]="error.username" class="block mb-2" severity="error">
+        </p-message>
+
+        <label class="block text-900 font-medium mb-2" for="password">Password</label>
+        <p-password [(ngModel)]="user.password" [placeholder]="'Please enter password'"
+                    [toggleMask]="true"
+                    class="block p-fluid text-900 font-medium mb-2" id="password" name="password">
+          <ng-template pTemplate="footer">
+            <p-divider></p-divider>
+            <p class="p-mt-2">Suggestions</p>
+            <ul class="p-pl-2 p-ml-2 p-mt-0" style="line-height: 1.5">
+              <li>At least one lowercase</li>
+              <li>At least one uppercase</li>
+              <li>At least one numeric</li>
+              <li>Minimum 8 characters</li>
+            </ul>
+          </ng-template>
+        </p-password>
+
+        <p-message *ngIf="error.password !== ''" [text]="error.password" class="block mb-2" severity="error">
+        </p-message>
+
+        <label class="block text-900 font-medium mb-2" for="userStatus">User Status</label>
+        <p-dropdown [(ngModel)]="user.userStatus" [name]="'userStatus'" [options]="userHelper.getUserStatues()"
+                    [style]="{width: '100%'}" class="block text-900 font-medium mb-2" id="userStatus"
+                    placeholder="Please select user status"></p-dropdown>
+
+        <p-message *ngIf="error.userStatus !== ''" [text]="error.userStatus" class="block mb-2" severity="error">
+        </p-message>
+
+        <label class="block text-900 font-medium mb-2" for="userRole">User Role(s)</label>
+        <p-multiSelect [(ngModel)]="user.userRoles" [name]="'userRole'" [options]="userHelper.getUserRoles()"
+                       [style]="{width: '100%'}"
+                       class="block text-900 font-medium mb-2" display="chip" id="userRole"
+                       placeholder="Please select user roles"></p-multiSelect>
+
+        <p-message *ngIf="error.userRoles !== ''" [text]="error.userRoles" class="block mb-2" severity="error">
+        </p-message>
+
+        <p-messages class="block mb-2"></p-messages>
+
+        <button [disabled]="userSaved" [type]="'submit'" class="p-button-sm w-full mb-2" icon="pi pi-users"
+                label="Save User"
+                pButton pRipple></button>
+        <button [routerLink]="'/admin/users'" class="p-button-sm  w-full" icon="pi pi-home" label="Back to All Users"
+                pButton
+                pRipple></button>
+      </div>
+    </form>
+  </div>
+</div>

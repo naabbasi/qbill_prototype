@@ -1,0 +1,114 @@
+<p-toast position="top-right"></p-toast>
+<div class="card">
+  <p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+      <button pButton pRipple label="New Supplier" icon="pi pi-plus" class="p-button-primary p-button-sm mr-2" [routerLink]="'/admin/suppliers/register'"></button>
+      <button pButton pRipple label="Add Supply" icon="pi pi-plus" class="p-button-primary p-button-sm mr-2" [disabled]="selectedSupplier == null" (click)="addSupply()"></button>
+    </ng-template>
+    <ng-template pTemplate="right">
+      <!--<button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"></button>-->
+    </ng-template>
+  </p-toolbar>
+
+  <p-table [value]="virtualSuppliers" [lazy]="true" (onLazyLoad)="loadSuppliersLazy($event)" [responsive]="true" styleClass="p-datatable-sm p-datatable-gridlines"
+           [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,15,20]"
+           [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [loading]="loading" [rowHover]="true"
+           [globalFilterFields]="['supplierName','supplierAddress', 'supplierMobileNumber', 'supplierStatus']" [sortField]="'supplierName'"
+           [selectionMode]="'single'" [(selection)]="selectedSupplier" [dataKey]="'supplierId'" (onRowSelect)="onRowSelect($event)"
+  >
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3%"></th>
+        <th style="width: 25%; text-align: center;" pSortableColumn="supplierName">Supplier Name <p-sortIcon field="supplierName"></p-sortIcon></th>
+        <th style="width: 25%; text-align: center;">Supplier Address<p-sortIcon field="supplierAddress"></p-sortIcon></th>
+        <th style="width: 12%; text-align: center;">Supplier Mobile Number</th>
+        <th style="width: 10%; text-align: center;">Supplier Status<p-sortIcon field="supplierStatus"></p-sortIcon></th>
+        <th style="width: 8%; text-align: center;">Total Supplies<p-sortIcon field="supplierStatus"></p-sortIcon></th>
+        <th style="width: 6%; text-align: center;">Action</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-supplier let-expanded="expanded">
+      <tr [pSelectableRow]="supplier">
+        <td>
+          <button type="button" pButton pRipple [pRowToggler]="supplier"
+                  class="p-button-text p-button-rounded p-button-plain"
+                  [icon]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'">
+          </button>
+        </td>
+        <td>{{supplier['supplierName']}}</td>
+        <td>{{supplier['supplierAddress']}}</td>
+        <td class="text-center">{{supplier['supplierMobileNumber']}}</td>
+        <td class="text-center">
+          <span [class]="'status-badge status-' + supplier['supplierStatus'].toLowerCase()">{{supplier['supplierStatus']}}</span>
+        </td>
+        <td class="text-center">{{supplier['supplies'].length}}</td>
+        <td>
+          <div class="text-center">
+            <p-button (click)="crudHelper.actions('suppliers', supplier, crudHelper.EDIT);" [icon]="'pi pi-pencil'"
+                      class="mr-1"></p-button>
+            <p-button (click)="crudHelper.getConfirmation('suppliers', supplier, crudHelper.EDIT)"
+                      [icon]="'pi pi-trash'"></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7">
+          There are no suppliers yet.
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="rowexpansion" let-supplier>
+      <tr>
+        <td colspan="7">
+          <div class="p-p-3">
+            <p-table [value]="supplier['supplies']" dataKey="supplyId"
+                     styleClass="p-datatable-sm p-datatable-gridlines">
+              <ng-template pTemplate="header">
+      <tr>
+        <th>Supply Id</th>
+        <th>Supply Quantity</th>
+                  <th>Supply Purchase Amount</th>
+                  <th>Supply Price</th>
+                  <th>Supply Date Time</th>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="body" let-supply>
+                <tr>
+                  <td>{{supply['supplyId']}}</td>
+                  <td>{{supply['supplyQuantity']}}</td>
+                  <td>{{supply['supplyPurchaseAmount']}}</td>
+                  <td>{{supply['supplyPrice']}}</td>
+                  <td>{{supply['supplyDateTime']}}</td>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="footer" let-supply>
+                <tr>
+                  <td>Total: </td>
+                  <td>{{0}}</td>
+                  <td>{{0}}</td>
+                  <td>{{0}}</td>
+                  <td>{{0}}</td>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="5">
+                    There are no supply for this supplier yet.
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

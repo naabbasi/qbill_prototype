@@ -1,0 +1,28 @@
+<p-menubar [model]="items">
+  <ng-template pTemplate="start">
+    <img src="./assets/img/invoice.png" height="40" class="p-mr-2">
+  </ng-template>
+  <ng-template pTemplate="end">
+    <p-splitButton [label]="this.user.firstName == null ? '' : this.user.firstName + ' ' +this.user.lastName "
+                   [model]="userItems" icon="pi pi-user"
+                   style="margin-left: .25em" styleClass="p-button-sm p-button-success">
+    </p-splitButton>
+  </ng-template>
+</p-menubar>
+
+
+<router-outlet>
+  <div class="wrapper" *ngIf="loading">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="shadow"></div>
+    <div class="shadow"></div>
+    <div class="shadow"></div>
+    <span>Loading</span>
+  </div>
+</router-outlet>
+
+<p-confirmDialog [baseZIndex]="10000" [position]="'top'" [style]="{width: '50vw'}"
+                 key="positionDialog" rejectButtonStyleClass="p-button-outlined">
+</p-confirmDialog>

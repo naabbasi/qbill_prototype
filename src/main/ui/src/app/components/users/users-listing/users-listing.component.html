@@ -1,0 +1,68 @@
+<p-toast position="top-right"></p-toast>
+<div class="card">
+  <p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+      <button pButton pRipple label="Add User" icon="pi pi-plus" class="p-button-primary p-button-sm mr-2"
+              [routerLink]="'/admin/users/register'"></button>
+    </ng-template>
+    <ng-template pTemplate="right">
+      <!--<button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"></button>-->
+    </ng-template>
+  </p-toolbar>
+
+  <p-table (onLazyLoad)="lazyLoadUsers($event)" (onRowSelect)="onRowSelect($event)" [(selection)]="selectedUser"
+           [lazy]="true" [responsive]="true"
+           [rowsPerPageOptions]="[10,15,20]"
+           [showCurrentPageReport]="true"
+           [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [loading]="loading" [rowHover]="true"
+           [sortField]="'username'"
+           [value]="virtualUsers"
+           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" dataKey="userId"
+           selectionMode="single" styleClass="p-datatable-sm p-datatable-gridlines"
+  >
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th [pSortableColumn]="'username'" style="width: 10%; text-align: center;">UserName
+          <p-columnFilter type="text" field="username"></p-columnFilter>
+        </th>
+        <th style="width: 15%; text-align: center;">First Name</th>
+        <th style="width: 12%; text-align: center;">Last Name</th>
+        <th style="width: 12%; text-align: center;">Password</th>
+        <th style="width: 12%; text-align: center;">
+          User Status
+          <p-sortIcon field="userStatus"></p-sortIcon>
+        </th>
+        <th style="width: 5%; text-align: center;">Action</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr [pSelectableRow]="user">
+        <td>{{user['username']}}</td>
+        <td>{{user['firstName']}}</td>
+        <td>{{user['lastName']}}</td>
+        <td>{{user['password']}}</td>
+        <td>
+          <span
+            [class]="'status-badge status-' + user['userStatus'].toLowerCase()">&nbsp;{{user['userStatus']}}&nbsp;</span>
+        </td>
+        <td>
+          <div class="text-center">
+            <p-button [icon]="'pi pi-pencil'" class="mr-1"
+                      (click)="crudHelper.actions(EndpointsHelper.USERS, user, crudHelper.EDIT);"></p-button>
+            <p-button (click)="crudHelper.getConfirmation(EndpointsHelper.USERS, user, crudHelper.DELETE);"
+                      [icon]="'pi pi-trash'"></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6">
+          There are no users yet.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
